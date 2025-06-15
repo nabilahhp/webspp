@@ -18,7 +18,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url('admin/akun') ?>">
+        <a class="nav-link" href="<?php echo base_url('staff_keuangan/akun') ?>">
           <i class="fas fa-user"></i> <?php echo Session()->get('nama') ?> (<?php echo Session()->get('akses_level') ?>)
         </a>
       </li>

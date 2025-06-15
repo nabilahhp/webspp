@@ -6,7 +6,7 @@
 			</div>
 			<div class="card-body">
 				<?php 
-				echo form_open_multipart(base_url('admin/akun')); 
+				echo form_open_multipart(base_url('staff_keuangan/akun')); 
 				echo csrf_field(); 
 				?>
 
@@ -18,7 +18,6 @@
 						$gambar = base_url('assets/upload/image/'.$user->gambar);
 					} 
 					?>
-					<img class="profile-user-img img-fluid img-circle" src="<?php echo $gambar ?>" alt="<?php echo $user->nama ?>" style="width: 100px; height: 100px;">
 				</p>
 
 				<div class="form-group row">
@@ -115,17 +114,6 @@
 				<h4>Update Profil Pegawai dan Staff</h4>
 			</div>
 			<div class="card-body">
-				<p class="text-center mt-2">
-					<?php 
-					if($staff->gambar=='') { 
-						$gambar = base_url('assets/admin/dist/img/user4-128x128.jpg');
-					}else{
-						$gambar = base_url('assets/upload/image/'.$staff->gambar);
-					} 
-					?>
-					<img class="profile-user-img img-fluid img-circle" src="<?php echo $gambar ?>" alt="<?php echo $staff->nama ?>" style="width: 100px; height: 100px;">
-				</p>
-
 				<?php echo form_open_multipart(base_url('admin/akun')) ?>
 				<div class="form-group row">
 					<label class="col-3">Nama Staff</label>
@@ -170,24 +158,6 @@
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label class="col-3">Jenis, Status Staff</label>
-					<div class="col-3">
-						<select name="id_kategori_staff" class="form-control">
-							<?php foreach($kategori_staff as $kategori_staff) { ?>
-							<option value="<?php echo $kategori_staff->id_kategori_staff ?>" <?php if($staff->id_kategori_staff==$kategori_staff->id_kategori_staff) { echo 'selected'; } ?>><?php echo $kategori_staff->nama_kategori_staff ?></option>
-							<?php } ?>
-						</select>
-						<small class="text-secondary">Jenis Staff</small>
-					</div>
-					<div class="col-3">
-						<select name="status_staff" class="form-control">
-							<option value="Publish">Publish</option>
-							<option value="Draft"  <?php if($staff->status_staff=="Draft") { echo 'selected'; } ?>>Draft</option>
-						</select>
-						<small class="text-secondary">Status Staff</small>
-					</div>
-				</div>
 
 				<div class="form-group row">
 					<label class="col-3">Upload Foto dan Website</label>
@@ -227,7 +197,7 @@
 				<div class="form-group row">
 					<label class="col-3"></label>
 					<div class="col-9">
-						<a href="<?php echo base_url('admin/staff') ?>" class="btn btn-outline-info">
+						<a href="<?php echo base_url('staff_keuangan/staff') ?>" class="btn btn-outline-info">
 							<i class="fa fa-arrow-left"></i> Kembali
 						</a>
 						<button type="submit" name="staff" value="Update Staff" class="btn btn-success"><i class="fa fa-save"></i> Simpan dan Lanjutkan</button>

@@ -115,16 +115,6 @@
 				<h4>Update Profil Pegawai dan Staff</h4>
 			</div>
 			<div class="card-body">
-				<p class="text-center mt-2">
-					<?php 
-					if($staff->gambar=='') { 
-						$gambar = base_url('assets/admin/dist/img/user4-128x128.jpg');
-					}else{
-						$gambar = base_url('assets/upload/image/'.$staff->gambar);
-					} 
-					?>
-					<img class="profile-user-img img-fluid img-circle" src="<?php echo $gambar ?>" alt="<?php echo $staff->nama ?>" style="width: 100px; height: 100px;">
-				</p>
 
 				<?php echo form_open_multipart(base_url('admin/akun')) ?>
 				<div class="form-group row">

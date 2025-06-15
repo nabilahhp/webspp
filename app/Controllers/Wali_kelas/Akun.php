@@ -145,7 +145,7 @@ class Akun extends BaseController
 					'kategori_staff'=> $kategori_staff,
 					'content'		=> 'wali_kelas/akun/index'
 				];
-		echo view('admin/layout/wrapper',$data);
+		echo view('wali_kelas/layout/wrapper',$data);
 		
 	}
 }

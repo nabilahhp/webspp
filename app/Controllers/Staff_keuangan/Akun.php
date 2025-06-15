@@ -1,5 +1,5 @@
 <?php 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Staff_keuangan;
 
 use CodeIgniter\Controller;
 use App\Models\User_model;
@@ -143,9 +143,9 @@ class Akun extends BaseController
 					'user'			=> $user,
 					'staff'			=> $staff,
 					'kategori_staff'=> $kategori_staff,
-					'content'		=> 'admin/akun/index'
+					'content'		=> 'staff_keuangan/akun/index'
 				];
-		echo view('admin/layout/wrapper',$data);
+		echo view('staff_keuangan/layout/wrapper',$data);
 		
 	}
 }

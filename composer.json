@@ -17,6 +17,7 @@
         "dompdf/dompdf": "^3.1",
         "laminas/laminas-escaper": "^2.9",
         "mpdf/mpdf": "^8.2",
+        "phpmailer/phpmailer": "^6.10",
         "phpoffice/phpspreadsheet": "^4.2",
         "psr/log": "^1.1"
     },
