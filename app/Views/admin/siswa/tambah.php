@@ -25,17 +25,6 @@ echo csrf_field();
 </p>
 
 <div class="row">
-	<!-- FOTO SISWA -->
-	<div class="col-md-3 col-sm-4 mb-4">
-		<div class="card">
-			<div class="card-header bg-light text-center">
-				<h4>FOTO SISWA</h4>
-			</div>
-			<div class="card-body text-center">
-				<img src="#" class="img-fluid img-thumbnail" alt="Foto Siswa" style="max-width: 200px; height: auto;">
-			</div>
-		</div>
-	</div>
 
 	<!-- DATA DASAR SISWA -->
 	<div class="col-md-9 col-sm-8">
@@ -66,15 +55,31 @@ echo csrf_field();
 					<label class="col-3 col-sm-2 col-form-label">Jenis Kelamin<span class="text-danger">*</span></label>
 					<div class="col-9 col-sm-10">
 						<div class="custom-control custom-radio custom-control-inline">
-							<input class="custom-control-input" name="jenis_kelamin" type="radio" id="customRadio1" value="L" <?php echo set_radio('jenis_kelamin', 'L', TRUE); ?> required>
-							<label for="customRadio1" class="custom-control-label">Laki-laki</label>
+							<input class="custom-control-input" name="jenis_kelamin" type="radio" id="customRadioL" value="L" <?php echo set_radio('jenis_kelamin', 'L', TRUE); ?> required>
+							<label for="customRadioL" class="custom-control-label">Laki-laki</label>
 						</div>
 						<div class="custom-control custom-radio custom-control-inline">
-							<input class="custom-control-input" name="jenis_kelamin" type="radio" id="customRadio2" value="P" <?php echo set_radio('jenis_kelamin', 'P', TRUE); ?> required>
-							<label for="customRadio2" class="custom-control-label">Perempuan</label>
+							<input class="custom-control-input" name="jenis_kelamin" type="radio" id="customRadioP" value="P" <?php echo set_radio('jenis_kelamin', 'P', TRUE); ?> required>
+							<label for="customRadioP" class="custom-control-label">Perempuan</label>
 						</div>
 					</div>
 				</div>
+
+				<!-- Jenis Kategori Siswa -->
+				<div class="form-group row">
+					<label class="col-3 col-sm-2 col-form-label">Jenis Kategori Siswa<span class="text-danger">*</span></label>
+					<div class="col-9 col-sm-10">
+						<div class="custom-control custom-radio custom-control-inline">
+							<input class="custom-control-input" name="kategori" type="radio" id="customRadioReguler" value="biasa" <?php echo set_radio('kategori', 'biasa', TRUE); ?> required>
+							<label for="customRadioReguler" class="custom-control-label">Reguler</label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input class="custom-control-input" name="kategori" type="radio" id="customRadioBeasiswa" value="beasiswa" <?php echo set_radio('kategori', 'beasiswa', TRUE); ?> required>
+							<label for="customRadioBeasiswa" class="custom-control-label">Beasiswa</label>
+						</div>
+					</div>
+				</div>
+
 
 				<!-- Telepon dan Email -->
 				<div class="form-group row">
@@ -87,13 +92,6 @@ echo csrf_field();
 					</div>
 				</div>
 
-				<!-- Gambar/Foto -->
-				<div class="form-group row">
-					<label class="col-3 col-sm-2 col-form-label">Gambar/Foto</label>
-					<div class="col-9 col-sm-10">
-						<input type="file" name="gambar" class="form-control" placeholder="Gambar/Foto" value="<?php echo set_value('gambar') ?>">
-					</div>
-				</div>
 
 				<!-- Status Siswa -->
 				<div class="form-group row">

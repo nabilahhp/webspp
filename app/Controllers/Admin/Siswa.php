@@ -2,16 +2,10 @@
 
 namespace App\Controllers\Admin;
 
-
 use App\Models\Siswa_model;
-use App\Models\Rombel_model;
 use App\Models\Kelas_model;
 use App\Models\Tahun_model;
-
-
-
-use App\Models\Siswa_rombel_model;
-
+use CodeIgniter\Controller;
 
 class Siswa extends BaseController
 {
@@ -22,7 +16,7 @@ class Siswa extends BaseController
         return $slug;
     }
 
-    // Main page
+    // Halaman utama untuk menampilkan data siswa
     public function index()
     {
         $m_siswa = new Siswa_model();
@@ -59,6 +53,7 @@ class Siswa extends BaseController
         echo view('admin/layout/wrapper', $data);
     }
 
+    // Fungsi untuk tambah data siswa
     public function tambah()
     {
         $m_siswa = new Siswa_model();
@@ -67,22 +62,13 @@ class Siswa extends BaseController
 
         if ($this->request->getMethod() === 'post' && $this->validate([
             'nama_siswa' => 'required',
-            'gambar' => [
-                'ext_in[gambar,jpg,jpeg,gif,png,svg]',
-                'max_size[gambar,4096]',
-            ],
         ])) {
-            // Penanganan unggah gambar
-            $gambar = $this->request->getFile('gambar');
-            if ($gambar && $gambar->isValid() && !$gambar->hasMoved()) {
-                $namabaru = $gambar->getRandomName();
-                $gambar->move(WRITEPATH . 'uploads', $namabaru); // Simpan file di folder "uploads"
-            } else {
-                $namabaru = ''; // Nilai default jika tidak ada gambar yang diunggah
-            }
             $hashedPassword = password_hash($this->request->getPost('nis'), PASSWORD_DEFAULT);
             // Membuat slug otomatis
             $slug_siswa = $this->createSlug($this->request->getPost('nama_siswa'));
+
+            // Menangkap data jenis pembiayaan
+            $jenis_pembiayaan = $this->request->getPost('jenis_pembiayaan');
 
             // Menyiapkan data untuk disimpan ke database
             $data = [
@@ -91,9 +77,9 @@ class Siswa extends BaseController
                 'nis' => $this->request->getPost('nis'),
                 'password' => $hashedPassword,
                 'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
+                'kategori' => $this->request->getPost('kategori'),
                 'telepon' => $this->request->getPost('telepon'),
                 'email' => $this->request->getPost('email'),
-                'gambar' => $namabaru, // Simpan nama gambar
                 'status_siswa' => $this->request->getPost('status_siswa'),
                 'id_tahun' => $this->request->getPost('id_tahun'),
                 'id_kelas' => $this->request->getPost('id_kelas'),
@@ -122,109 +108,8 @@ class Siswa extends BaseController
         }
     }
 
-    public function import()
-    {
-        $m_siswa = new Siswa_model();
-        $m_kelas = new Kelas_model();
-        $m_tahun = new Tahun_model();
 
-
-        $kelas = $m_kelas->listing();
-        $tahun = $m_tahun->listing();
-
-        if ($this->request->getMethod() === 'post' && $this->validate([
-            'ID_USER' => 'required',
-            'id_kelas' => 'required',
-            'id_tahun' => 'required',
-            'file_excel' => [
-                'ext_in[file_excel,xlsx,xls,csv]',
-                'max_size[file_excel,4096]',
-            ],
-        ])) {
-            $id_kelas = $this->request->getPost('id_kelas');
-            $id_tahun = $this->request->getPost('id_tahun');
-
-            $file = $this->request->getFile('file_excel');
-            $filename = $file->getRandomName();
-            $file->move(WRITEPATH . '../assets/upload/file/', $filename);
-
-            $filepath = WRITEPATH . '../assets/upload/file/' . $filename;
-            $ext = $file->getClientExtension();
-
-            // Pilih reader berdasarkan ekstensi file
-            if ($ext == 'csv') {
-                $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Csv');
-            } elseif ($ext == 'xls') {
-                $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xls');
-            } else { // xlsx
-                $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
-            }
-
-            $reader->setReadDataOnly(true);
-            $spreadsheet = $reader->load($filepath);
-            $worksheet = $spreadsheet->getActiveSheet();
-
-            $i = 1;
-            foreach ($worksheet->getRowIterator() as $row) {
-                $cellIterator = $row->getCellIterator();
-                $cellIterator->setIterateOnlyExistingCells(false);
-
-                $cells = [];
-                foreach ($cellIterator as $cell) {
-                    $cells[] = $cell->getValue();
-                }
-
-                if ($i > 1) { // Lewati header
-                    if (empty($cells[1])) {
-                        $i++;
-                        continue;
-                    }
-
-                    $data = [
-                        'id_tahun' => $id_tahun,
-                        'id_kelas' => $id_kelas,
-                        'kode_siswa' => null,
-                        'slug_siswa' => null,
-                        'kategori' => $cells[0],
-                        'nis' => $cells[1],
-                        'nama_siswa' => $cells[2],
-                        'telepon' => $cells[3],
-                        'email' => $cells[4],
-                        'password' => password_hash($cells[1], PASSWORD_DEFAULT),
-                        'password_hint' => null,
-                        'jenis_kelamin' => $cells[5],
-                        'isi' => $cells[6],
-                        'nama_ayah' => $cells[7],
-                        'nama_ibu' => $cells[8],
-                        'telepon_ayah' => $cells[9],
-                        'telepon_ibu' => $cells[10],
-                        'kelompok' => null,
-                        'gambar' => null,
-                        'status_siswa' => 'Aktif',
-                        'tanggal_baca' => null,
-                        'tanggal_post' => date('Y-m-d H:i:s'),
-                        'tanggal' => date('Y-m-d H:i:s'),
-                    ];
-
-                    $m_siswa->insert($data);
-                }
-                $i++;
-            }
-
-            $this->session->setFlashdata('sukses', 'Data siswa berhasil diimpor.');
-            return redirect()->to(base_url('admin/siswa'));
-        } else {
-            $data = [
-                'title' => 'Import Data Siswa',
-                'kelas' => $kelas,
-                'tahun' => $tahun,
-                'content' => 'admin/siswa/import'
-            ];
-            echo view('admin/layout/wrapper', $data);
-        }
-    }
-
-    // Edit
+    // Fungsi untuk edit data siswa
     public function edit($id_siswa)
     {
         $m_siswa = new Siswa_model();
@@ -253,6 +138,9 @@ class Siswa extends BaseController
                 $slug_siswa = $this->createSlug($this->request->getPost('nama_siswa')); // Jika slug kosong, buat slug
             }
 
+            // Menangkap data jenis pembiayaan
+            $jenis_pembiayaan = $this->request->getPost('jenis_pembiayaan');
+
             // Menyimpan perubahan data
             $data = [
                 'nama_siswa' => $this->request->getPost('nama_siswa'),
@@ -269,6 +157,7 @@ class Siswa extends BaseController
                 'telepon_ayah' => $this->request->getPost('telepon_ayah'),
                 'nama_ibu' => $this->request->getPost('nama_ibu'),
                 'telepon_ibu' => $this->request->getPost('telepon_ibu'),
+                'kategori' => $jenis_pembiayaan,  // Menyimpan jenis pembiayaan
             ];
 
             // Menyimpan data ke database
@@ -288,46 +177,5 @@ class Siswa extends BaseController
             ];
             echo view('admin/layout/wrapper', $data);
         }
-    }
-    public function proses()
-    {
-        $m_siswa = new Siswa_model();
-        $request = service('request');
-
-        $submit = $request->getPost('submit');
-        $id_siswa = $request->getPost('id_siswa');
-
-        if (empty($id_siswa)) {
-            $this->session->setFlashdata('warning', 'Tidak ada siswa yang dipilih.');
-            return redirect()->to(base_url('admin/siswa'));
-        }
-
-        if ($submit === 'delete') {
-            // Proses hapus banyak siswa
-            foreach ($id_siswa as $id) {
-                $m_siswa->delete($id);
-            }
-            $this->session->setFlashdata('sukses', 'Beberapa data siswa berhasil dihapus.');
-        } elseif ($submit === 'update') {
-            // Update status siswa
-            $status = $request->getPost('status_siswa');
-            foreach ($id_siswa as $id) {
-                $m_siswa->update($id, ['status_siswa' => $status]);
-            }
-            $this->session->setFlashdata('sukses', 'Status siswa berhasil diperbarui.');
-        }
-
-        return redirect()->to(base_url('admin/siswa'));
-    }
-
-
-    // Delete
-    public function delete($id_siswa)
-    {
-        $m_siswa = new Siswa_model();
-        $data = ['id_siswa' => $id_siswa];
-        $m_siswa->delete($data);
-        $this->session->setFlashdata('sukses', 'Data telah dihapus');
-        return redirect()->to(base_url('admin/siswa'));
     }
 }
