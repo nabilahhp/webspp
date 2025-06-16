@@ -90,7 +90,35 @@ class Data_tagihan_siswa extends BaseController
         return view('staff_keuangan/layout/wrapper', $data);
     }
 
-        // Delete tagihan
+    public function update_status()
+    {
+        $id = $this->request->getPost('id');
+        $status = $this->request->getPost('status');
+
+        if (!$id || !$status) {
+            return redirect()->back()->with('error', 'Data tidak lengkap untuk memperbarui status tagihan.');
+        }
+
+        $data = ['status' => $status];
+
+        if ($status === 'Lunas') {
+            $data['tanggal_bayar'] = date('Y-m-d H:i:s');
+        } else {
+            $data['tanggal_bayar'] = null;
+        }
+
+        try {
+            $this->tagihanModel->update($id, $data);
+            session()->setFlashdata('sukses', 'Status tagihan berhasil diperbarui.');
+        } catch (\Exception $e) {
+            $this->logger->error('Gagal update status tagihan: ' . $e->getMessage());
+            session()->setFlashdata('error', 'Terjadi kesalahan saat memperbarui status.');
+        }
+
+        return redirect()->to(base_url('staff_keuangan/data_tagihan_siswa'));
+    }
+
+    // Delete tagihan
     public function delete($id)
     {
         if ($this->tagihanModel->delete($id)) {
