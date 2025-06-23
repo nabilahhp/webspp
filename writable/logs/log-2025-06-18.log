@@ -1,0 +1,20 @@
+INFO - 2025-06-18 08:29:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-18 08:29:01 --> [DEPRECATED] Creation of dynamic property CodeIgniter\View\View::$website is deprecated in APPPATH\Views\login\wrapper.php on line 3.
+ 1 SYSTEMPATH\View\View.php(228): include('C:\\xampp\\htdocs\\webspp\\app\\Views\\login\\wrapper.php')
+ 2 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('login/wrapper', [], true)
+ 4 APPPATH\Controllers\Login.php(34): view('login/wrapper', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Login->index()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+ 9 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')
+INFO - 2025-06-18 08:29:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-06-18 08:29:02 --> ErrorException: Attempt to read property "id_staff" on null
+in APPPATH\Controllers\Wali_kelas\Akun.php on line 23.
+ 1 APPPATH\Controllers\Wali_kelas\Akun.php(23): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "id_staff" on null', 'C:\\xampp\\htdocs\\webspp\\app\\Controllers\\Wali_kelas\\Akun.php', 23)
+ 2 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Wali_kelas\Akun->index()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Wali_kelas\Akun))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+ 6 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')

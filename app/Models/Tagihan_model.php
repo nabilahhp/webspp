@@ -17,13 +17,13 @@ class Tagihan_model extends Model
 
     public function getTagihanAndStatus($id_siswa)
     {
-        // Ambil semua tagihan siswa dengan join ke tabel input_tagihan
         $builder = $this->db->table('tagihan')
             ->select([
                 'tagihan.*',
                 'input_tagihan.bulan_tagihan',
                 'input_tagihan.jumlah',
-                'siswa.nama_siswa'
+                'siswa.nama_siswa',
+                'siswa.nis' // <-- Tambahkan ini
             ])
             ->join('input_tagihan', 'input_tagihan.id = tagihan.id_input_tagihan', 'left')
             ->join('siswa', 'siswa.id_siswa = tagihan.id_siswa', 'left')
@@ -32,6 +32,7 @@ class Tagihan_model extends Model
 
         return $builder->get()->getResultArray();
     }
+
 
 
     public function getTagihanTelatWaliKelas($id_kelas, $id_tahun, $keywords = null)

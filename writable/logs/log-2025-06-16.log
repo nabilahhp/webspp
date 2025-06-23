@@ -2797,3 +2797,85 @@ WARNING - 2025-06-16 06:56:44 --> [DEPRECATED] Creation of dynamic property App\
 10 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')
 INFO - 2025-06-16 06:56:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 INFO - 2025-06-16 06:57:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-16 14:47:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-16 14:47:40 --> [DEPRECATED] Creation of dynamic property CodeIgniter\View\View::$simple_login is deprecated in APPPATH\Views\staff_keuangan\layout\wrapper.php on line 4.
+ 1 SYSTEMPATH\View\View.php(228): include('C:\\xampp\\htdocs\\webspp\\app\\Views\\staff_keuangan\\layout\\wrapper.php')
+ 2 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('staff_keuangan/layout/wrapper', [], true)
+ 4 APPPATH\Controllers\Staff_keuangan\Riwayat_tagihan.php(75): view('staff_keuangan/layout/wrapper', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff_keuangan\Riwayat_tagihan->index()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff_keuangan\Riwayat_tagihan))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+ 9 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')
+WARNING - 2025-06-16 14:47:40 --> [DEPRECATED] Creation of dynamic property CodeIgniter\View\View::$website is deprecated in APPPATH\Views\staff_keuangan\layout\wrapper.php on line 5.
+ 1 SYSTEMPATH\View\View.php(228): include('C:\\xampp\\htdocs\\webspp\\app\\Views\\staff_keuangan\\layout\\wrapper.php')
+ 2 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('staff_keuangan/layout/wrapper', [], true)
+ 4 APPPATH\Controllers\Staff_keuangan\Riwayat_tagihan.php(75): view('staff_keuangan/layout/wrapper', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff_keuangan\Riwayat_tagihan->index()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff_keuangan\Riwayat_tagihan))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+ 9 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')
+WARNING - 2025-06-16 14:47:40 --> [DEPRECATED] Creation of dynamic property CodeIgniter\View\View::$session is deprecated in APPPATH\Views\staff_keuangan\layout\wrapper.php on line 6.
+ 1 SYSTEMPATH\View\View.php(228): include('C:\\xampp\\htdocs\\webspp\\app\\Views\\staff_keuangan\\layout\\wrapper.php')
+ 2 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('staff_keuangan/layout/wrapper', [], true)
+ 4 APPPATH\Controllers\Staff_keuangan\Riwayat_tagihan.php(75): view('staff_keuangan/layout/wrapper', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff_keuangan\Riwayat_tagihan->index()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff_keuangan\Riwayat_tagihan))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+ 9 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')
+WARNING - 2025-06-16 14:47:40 --> [DEPRECATED] Creation of dynamic property App\Libraries\Simple_login::$session is deprecated in APPPATH\Libraries\Simple_login.php on line 130.
+ 1 APPPATH\Views\staff_keuangan\layout\wrapper.php(8): App\Libraries\Simple_login->checklogin()
+ 2 SYSTEMPATH\View\View.php(228): include('C:\\xampp\\htdocs\\webspp\\app\\Views\\staff_keuangan\\layout\\wrapper.php')
+ 3 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('staff_keuangan/layout/wrapper', [], true)
+ 5 APPPATH\Controllers\Staff_keuangan\Riwayat_tagihan.php(75): view('staff_keuangan/layout/wrapper', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Staff_keuangan\Riwayat_tagihan->index()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Staff_keuangan\Riwayat_tagihan))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+10 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')
+INFO - 2025-06-16 14:47:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-16 14:47:40 --> [DEPRECATED] Creation of dynamic property CodeIgniter\View\View::$website is deprecated in APPPATH\Views\login\wrapper.php on line 3.
+ 1 SYSTEMPATH\View\View.php(228): include('C:\\xampp\\htdocs\\webspp\\app\\Views\\login\\wrapper.php')
+ 2 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('login/wrapper', [], true)
+ 4 APPPATH\Controllers\Login.php(34): view('login/wrapper', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Login->index()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+ 9 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')
+INFO - 2025-06-16 14:47:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-06-16 14:47:42 --> ErrorException: Attempt to read property "id_staff" on null
+in APPPATH\Controllers\Wali_kelas\Akun.php on line 23.
+ 1 APPPATH\Controllers\Wali_kelas\Akun.php(23): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "id_staff" on null', 'C:\\xampp\\htdocs\\webspp\\app\\Controllers\\Wali_kelas\\Akun.php', 23)
+ 2 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Wali_kelas\Akun->index()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Wali_kelas\Akun))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+ 6 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')
+INFO - 2025-06-16 18:18:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-16 18:18:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-06-16 18:18:38 --> ErrorException: Attempt to read property "id_staff" on null
+in APPPATH\Controllers\Wali_kelas\Akun.php on line 23.
+ 1 APPPATH\Controllers\Wali_kelas\Akun.php(23): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "id_staff" on null', 'C:\\xampp\\htdocs\\webspp\\app\\Controllers\\Wali_kelas\\Akun.php', 23)
+ 2 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Wali_kelas\Akun->index()
+ 3 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Wali_kelas\Akun))
+ 4 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+ 6 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')
+WARNING - 2025-06-16 18:18:38 --> [DEPRECATED] Creation of dynamic property CodeIgniter\View\View::$website is deprecated in APPPATH\Views\login\wrapper.php on line 3.
+ 1 SYSTEMPATH\View\View.php(228): include('C:\\xampp\\htdocs\\webspp\\app\\Views\\login\\wrapper.php')
+ 2 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1178): CodeIgniter\View\View->render('login/wrapper', [], true)
+ 4 APPPATH\Controllers\Login.php(34): view('login/wrapper', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(941): App\Controllers\Login->index()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(36): CodeIgniter\CodeIgniter->run()
+ 9 ROOTPATH\index.php(7): require_once('C:\\xampp\\htdocs\\webspp\\public\\index.php')

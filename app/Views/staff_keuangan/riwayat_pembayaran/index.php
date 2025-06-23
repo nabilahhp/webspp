@@ -247,7 +247,7 @@
                         document.getElementById('bukti-jumlah').textContent = 'Rp ' + parseInt(data.jumlah_bayar).toLocaleString('id-ID');
                         document.getElementById('bukti-metode').textContent = data.metode_pembayaran || '-';
                         document.getElementById('bukti-tanggal').textContent = data.tanggal_bayar || '-';
-                        document.getElementById('bukti-transaksi').textContent = data.response_data?.transaction_id || '-';
+                        document.getElementById('bukti-transaksi').textContent = data.invoice_number || '-';
                         document.getElementById('bukti-response').textContent = data.response_message || '-';
 
                         // Show table, hide spinner

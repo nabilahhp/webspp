@@ -34,6 +34,8 @@ class Siswa_model extends Model
         'isi',
         'nama_ayah',
         'nama_ibu',
+        'nama_wali',
+        'telepon_wali',
         'telepon_ayah',
         'telepon_ibu',
         'kelompok',

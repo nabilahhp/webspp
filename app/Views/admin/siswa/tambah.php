@@ -163,15 +163,15 @@ echo csrf_field();
 		<div class="form-group row">
 			<label class="col-3 col-sm-2 col-form-label">Nama Ayah<span class="text-danger">*</span></label>
 			<div class="col-9 col-sm-10">
-				<input type="text" name="nama_ayah" class="form-control" placeholder="Nama Ayah" value="<?php echo set_value('nama_ayah') ?>">
+				<input type="text" name="nama_ayah" class="form-control" placeholder="Nama Ayah" value="<?php echo set_value('nama_ayah') ?>" >
 			</div>
 		</div>
 
 		<!-- Telepon/HP Ayah -->
 		<div class="form-group row">
-			<label class="col-3 col-sm-2 col-form-label">Telepon/HP Ayah</label>
+			<label class="col-3 col-sm-2 col-form-label">Telepon/HP Ayah<span class="text-danger">*</span></label>
 			<div class="col-9 col-sm-10">
-				<input type="text" name="telepon_ayah" class="form-control" placeholder="Telepon/HP Ayah" value="<?php echo set_value('telepon_ayah') ?>">
+				<input type="text" name="telepon_ayah" class="form-control" placeholder="Telepon/HP Ayah" value="<?php echo set_value('telepon_ayah') ?>" >
 			</div>
 		</div>
 
@@ -184,7 +184,6 @@ echo csrf_field();
 		<h4>DATA ORANG TUA SISWA - IBU</h4>
 	</div>
 	<div class="card-body">
-
 		<!-- Nama Ibu -->
 		<div class="form-group row">
 			<label class="col-3 col-sm-2 col-form-label">Nama Ibu<span class="text-danger">*</span></label>
@@ -195,12 +194,35 @@ echo csrf_field();
 
 		<!-- Telepon/HP Ibu -->
 		<div class="form-group row">
-			<label class="col-3 col-sm-2 col-form-label">Telepon/HP Ibu</label>
+			<label class="col-3 col-sm-2 col-form-label">Telepon/HP Ibu<span class="text-danger">*</span></label>
 			<div class="col-9 col-sm-10">
-				<input type="text" name="telepon_ibu" class="form-control" placeholder="Telepon/HP Ibu" value="<?php echo set_value('telepon_ibu') ?>">
+				<input type="text" name="telepon_ibu" class="form-control" placeholder="Telepon/HP Ibu" value="<?php echo set_value('telepon_ibu') ?>" >
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- DATA ORANG TUA (WALI) -->
+<div class="card mt-4">
+	<div class="card-header bg-light text-center">
+		<h4>DATA ORANG TUA SISWA - WALI</h4>
+	</div>
+	<div class="card-body">
+		<!-- Nama Ibu -->
+		<div class="form-group row">
+			<label class="col-3 col-sm-2 col-form-label">Nama Wali<span class="text-danger">*</span></label>
+			<div class="col-9 col-sm-10">
+				<input type="text" name="nama_wali" class="form-control" placeholder="Nama Wali" value="<?php echo set_value('nama_wali') ?>">
 			</div>
 		</div>
 
+		<!-- Telepon/HP Ibu -->
+		<div class="form-group row">
+			<label class="col-3 col-sm-2 col-form-label">Telepon/HP Wali<span class="text-danger">*</span></label>
+			<div class="col-9 col-sm-10">
+				<input type="text" name="telepon_wali" class="form-control" placeholder="Telepon/HP Wali" value="<?php echo set_value('telepon_wali') ?>" >
+			</div>
+		</div>
 	</div>
 </div>
 

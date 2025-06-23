@@ -111,9 +111,6 @@ $uri = service('uri');
         <?php } ?>
       </td>
 			<td>
-				<a href="<?php echo base_url('admin/siswa/detail/'.$siswa->id_siswa) ?>" class="btn btn-info btn-sm mb-1" title="Detail"><i class="fa fa-eye"></i></a>
-        <a href="<?php echo base_url('admin/siswa/cetak/'.$siswa->id_siswa) ?>" class="btn btn-dark btn-sm mb-1" title="Cetak" target="_blank"><i class="fa fa-print"></i></a>
-        <a href="<?php echo base_url('admin/siswa/unduh/'.$siswa->id_siswa) ?>" class="btn btn-danger btn-sm mb-1" title="Unduh" target="_blank"><i class="fa fa-file-pdf"></i></a>
         <a href="<?php echo base_url('admin/siswa/edit/'.$siswa->id_siswa) ?>" class="btn btn-warning btn-sm mb-1" title="Edit"><i class="fa fa-edit"></i></a>
 				<a href="<?php echo base_url('admin/siswa/delete/'.$siswa->id_siswa) ?>" class="btn btn-secondary btn-sm delete-link mb-1" title="Hapus"><i class="fa fa-trash"></i></a>
 			</td>
