@@ -16,33 +16,45 @@ class KirimPengingat extends BaseCommand
 
     public function run(array $params)
     {
-        // Inisialisasi logger
         $logger = Services::logger();
         $tagihanModel = new Tagihan_model();
         $siswaModel   = new Siswa_model();
 
         $token = 'XJxJLfoFBfYSZiZ26RuT'; // Gunakan .env jika sudah
 
-        CLI::write('ðŸ”„ Memulai pengiriman pengingat tagihan...', 'yellow');
-        $logger->info('ðŸ”„ Memulai pengiriman pengingat tagihan...');
+        CLI::write('📍 Memulai pengiriman pengingat tagihan...', 'yellow');
+        $logger->info('📍 Memulai pengiriman pengingat tagihan...');
 
-        // Update status otomatis berdasarkan usia tagihan
-        $tagihanModel->updateStatusOtomatis(); // Update status tagihan otomatis
+        // Update status tagihan otomatis
+        $tagihanModel->updateStatusOtomatis();
 
-        // Ambil daftar siswa
+        // Ambil semua siswa
         $siswaList = $siswaModel->findAll();
 
         foreach ($siswaList as $siswa) {
             $tagihanList = $tagihanModel->getTagihanAndStatus($siswa['id_siswa']);
 
             foreach ($tagihanList as $tagihan) {
-                if (empty($tagihan['last_notified'])) {
+                
+                $lastNotified = $tagihan['last_notified'];
+                $nowMonth = date('Y-m');
+                $notifiedMonth = $lastNotified ? date('Y-m', strtotime($lastNotified)) : null;
+
+                $shouldNotify = false;
+
+                if ($tagihan['status'] === 'Telat Bayar') {
+                    $shouldNotify = empty($lastNotified) || $notifiedMonth < $nowMonth;
+                } else {
+                    $shouldNotify = empty($lastNotified);
+                }
+
+                if ($shouldNotify) {
                     $pesan = $this->generateMessage($tagihan['status'], $tagihan);
 
                     if ($pesan) {
                         $nomor_ayah = $this->formatNomor($siswa['telepon_ayah']);
                         $nomor_ibu  = $this->formatNomor($siswa['telepon_ibu']);
-                        $nomor_wali  = $this->formatNomor($siswa['telepon_wali']);
+                        $nomor_wali = $this->formatNomor($siswa['telepon_wali']);
 
                         if ($nomor_ayah) {
                             $this->sendMessage($nomor_ayah, $pesan, $token);
@@ -54,20 +66,25 @@ class KirimPengingat extends BaseCommand
                             $this->sendMessage($nomor_wali, $pesan, $token);
                         }
 
-                        // Update last_notified setelah pengiriman pesan
+                        // Update waktu pengingat terakhir
                         $tagihanModel->update($tagihan['id'], [
                             'last_notified' => date('Y-m-d H:i:s')
                         ]);
 
-                        // Log pengiriman pesan
                         $logger->info("Pesan pengingat untuk siswa {$siswa['nama_siswa']} (ID: {$siswa['id_siswa']}) telah dikirim.");
                     }
                 }
+                CLI::write("DEBUG - ID Tagihan: {$tagihan['id']}", 'light_cyan');
+                CLI::write("Status: {$tagihan['status']}", 'light_cyan');
+                CLI::write("Last Notified: " . ($lastNotified ?? 'NULL'), 'light_cyan');
+                CLI::write("Notified Month: " . ($notifiedMonth ?? 'NULL'), 'light_cyan');
+                CLI::write("Now Month: $nowMonth", 'light_cyan');
+                CLI::write("Should Notify? " . ($shouldNotify ? '✅ YA' : '❌ TIDAK'), 'light_cyan');
             }
         }
 
-        CLI::write('âœ… Semua pengingat berhasil dikirim!', 'green');
-        $logger->info('âœ… Semua pengingat berhasil dikirim!');
+        CLI::write('✅ Semua pengingat berhasil dikirim!', 'green');
+        $logger->info('✅ Semua pengingat berhasil dikirim!');
     }
 
     private function generateMessage($status, $tagihan)
@@ -78,18 +95,18 @@ class KirimPengingat extends BaseCommand
         $jumlah = number_format($tagihan['jumlah'], 0, ',', '.');
         $link   = 'smamugapay.my.id';
 
-        $pesanPembuka = "Pemberitahuan Kepada Orang Tua atau Wali Siswa $nama dengan NIS $nis: ";
+        $pesanPembuka = "Pemberitahuan Kepada Orang Tua atau Wali Siswa *$nama* dengan NIS *$nis*: ";
         $pesanPenutup = "\n\nPesan dikirim otomatis oleh Sistem Pembayaran SPP SMA Muhammadiyah 3 Sidoarjo.\n\nSegera lakukan pembayaran melalui link berikut,\n$link\n\n! Abaikan pesan ini jika sudah membayar !";
 
         switch ($status) {
             case 'Belum Bayar':
-                return $pesanPembuka . "Untuk segera membayar Tagihan SPP bulan *$bulan* sebesar *Rp$jumlah* belum dibayar. Mohon segera membayar." . $pesanPenutup;
+                return $pesanPembuka . "Untuk segera membayar Tagihan SPP bulan *$bulan* sebesar *Rp$jumlah*. Mohon segera membayar." . $pesanPenutup;
 
             case 'Tertunggak':
-                return $pesanPembuka . "Tagihan SPP bulan *$bulan* sebesar *Rp$jumlah* sudah tertunggak lebih dari 10 hari. Mohon perhatian Bapak/Ibu." . $pesanPenutup;
+                return $pesanPembuka . "Tagihan SPP bulan *$bulan* sebesar *Rp$jumlah* sudah tertunggak lebih dari 10 hari. Mohon segera membayar sebelum status tagihan menjadi Telat Bayar." . $pesanPenutup;
 
             case 'Telat Bayar':
-                return $pesanPembuka . "Tagihan SPP bulan *$bulan* sebesar *Rp$jumlah* sudah sangat terlambat. Mohon segera menghubungi pihak sekolah atau wali kelas." . $pesanPenutup;
+                return $pesanPembuka . "Tagihan SPP bulan *$bulan* sebesar *Rp$jumlah* sudah mengalami keterlambatan lebih dari 13 hari. Mohon segera menghubungi wali kelas sebelum melakukan pembayaran." . $pesanPenutup;
 
             default:
                 return null;

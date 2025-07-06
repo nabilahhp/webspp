@@ -194,7 +194,7 @@ echo csrf_field();
         <div class="form-group row">
             <label class="col-3 col-sm-2 col-form-label">Telepon/HP Ibu <span class="text-danger">*</span></label>
             <div class="col-9 col-sm-10">
-                <input type="text" nam_valueepon_ibu" class="form-control" placeholder="Telepon/HP Ibu" value="<?= set_value('telepon_ibu', $siswa->telepon_ibu); ?>" >
+                <input type="text" name="telepon_ibu" class="form-control" placeholder="Telepon/HP Ibu" value="<?= set_value('telepon_ibu', $siswa->telepon_ibu); ?>" >
             </div>
         </div>
     </div>
