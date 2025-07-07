@@ -156,67 +156,107 @@ class Siswa extends BaseController
         }
     }
 
-    // Fungsi untuk edit data siswa
     public function edit($id_siswa)
     {
         $m_siswa = new Siswa_model();
         $siswa = $m_siswa->detail($id_siswa);
 
-        if ($this->request->getMethod() === 'post' && $this->validate([
+        $rules = [
             'nama_siswa' => 'required',
+            'nis' => 'required',
+            'jenis_kelamin' => 'required',
+            'kategori' => 'required',
+            'status_siswa' => 'required',
+            'id_tahun' => 'required',
+            'id_kelas' => 'required',
+            'telepon' => 'required',
+            'email' => 'required|valid_email',
+
+            // Validasi gambar
             'gambar' => [
+                'permit_empty',
                 'ext_in[gambar,jpg,jpeg,gif,png,svg]',
                 'max_size[gambar,4096]',
             ],
-        ])) {
-            // Penanganan unggah gambar (update)
+
+            // Validasi ortu dan wali sebagai input opsional
+            'nama_ayah' => 'permit_empty',
+            'telepon_ayah' => 'permit_empty',
+            'nama_ibu' => 'permit_empty',
+            'telepon_ibu' => 'permit_empty',
+            'nama_wali' => 'permit_empty',
+            'telepon_wali' => 'permit_empty',
+        ];
+
+        $messages = [
+            'required' => '{field} wajib diisi.',
+            'valid_email' => 'Format email tidak valid.',
+            'ext_in' => 'Format gambar tidak didukung (hanya jpg, jpeg, png, gif, svg).',
+            'max_size' => 'Ukuran gambar maksimal 4MB.',
+        ];
+
+        if ($this->request->getMethod() === 'post' && $this->validate($rules, $messages)) {
+            // Ambil data input
+            $nama_ayah = $this->request->getPost('nama_ayah');
+            $telepon_ayah = $this->request->getPost('telepon_ayah');
+            $nama_ibu = $this->request->getPost('nama_ibu');
+            $telepon_ibu = $this->request->getPost('telepon_ibu');
+            $nama_wali = $this->request->getPost('nama_wali');
+            $telepon_wali = $this->request->getPost('telepon_wali');
+
+            // Validasi logika ortu/wali
+            if (empty($nama_ayah) && empty($nama_ibu) && empty($nama_wali)) {
+                session()->setFlashdata('error', 'Jika nama ayah dan ibu kosong, maka nama wali wajib diisi.');
+                return redirect()->back()->withInput();
+            }
+
+            if (empty($telepon_ayah) && empty($telepon_ibu) && empty($telepon_wali)) {
+                session()->setFlashdata('error', 'Jika telepon ayah dan ibu kosong, maka telepon wali wajib diisi.');
+                return redirect()->back()->withInput();
+            }
+
+            // Penanganan unggah gambar
             $gambar = $this->request->getFile('gambar');
             if ($gambar && $gambar->isValid() && !$gambar->hasMoved()) {
                 $namabaru = $gambar->getRandomName();
-                $gambar->move(WRITEPATH . 'uploads', $namabaru); // Simpan file di folder "uploads"
+                $gambar->move(WRITEPATH . 'uploads', $namabaru);
             } else {
-                // Jika tidak ada gambar baru yang diunggah, gunakan gambar lama
-                $namabaru = $siswa->gambar; // Ambil gambar lama jika tidak ada gambar baru
+                $namabaru = $siswa->gambar;
             }
 
-            // Membuat slug otomatis jika slug kosong
-            $slug_siswa = $siswa->slug_siswa;
-            if (empty($slug_siswa)) {
-                $slug_siswa = $this->createSlug($this->request->getPost('nama_siswa')); // Jika slug kosong, buat slug
-            }
+            // Slug otomatis
+            $slug_siswa = $siswa->slug_siswa ?: $this->createSlug($this->request->getPost('nama_siswa'));
 
-            // Menangkap data jenis pembiayaan
-            $jenis_pembiayaan = $this->request->getPost('jenis_pembiayaan');
-
-            // Menyimpan perubahan data
+            // Data yang akan disimpan
             $data = [
                 'nama_siswa' => $this->request->getPost('nama_siswa'),
-                'slug_siswa' => $slug_siswa, // Masukkan slug_siswa
+                'slug_siswa' => $slug_siswa,
                 'nis' => $this->request->getPost('nis'),
                 'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
                 'telepon' => $this->request->getPost('telepon'),
                 'email' => $this->request->getPost('email'),
-                'gambar' => $namabaru, // Simpan nama gambar
+                'gambar' => $namabaru,
                 'status_siswa' => $this->request->getPost('status_siswa'),
                 'id_tahun' => $this->request->getPost('id_tahun'),
                 'id_kelas' => $this->request->getPost('id_kelas'),
-                'nama_ayah' => $this->request->getPost('nama_ayah'),
-                'telepon_ayah' => $this->request->getPost('telepon_ayah'),
-                'nama_ibu' => $this->request->getPost('nama_ibu'),
-                'telepon_ibu' => $this->request->getPost('telepon_ibu'),
-                'kategori' => $jenis_pembiayaan,  // Menyimpan jenis pembiayaan
+                'nama_ayah' => $nama_ayah,
+                'telepon_ayah' => $telepon_ayah,
+                'nama_ibu' => $nama_ibu,
+                'telepon_ibu' => $telepon_ibu,
+                'nama_wali' => $nama_wali,
+                'telepon_wali' => $telepon_wali,
+                'kategori' => $this->request->getPost('kategori'),
             ];
 
-            // Menyimpan data ke database
             if ($m_siswa->update($id_siswa, $data)) {
-                $this->session->setFlashdata('sukses', 'Data telah disimpan');
+                session()->setFlashdata('sukses', 'Data siswa berhasil diperbarui.');
             } else {
-                $this->session->setFlashdata('error', 'Terjadi kesalahan, data tidak bisa disimpan');
+                session()->setFlashdata('error', 'Terjadi kesalahan saat menyimpan data.');
             }
 
             return redirect()->to(base_url('admin/siswa'));
         } else {
-            // Kirim data ke view untuk menampilkan form edit dengan data yang sudah ada
+            // Jika validasi gagal atau belum disubmit
             $data = [
                 'title' => 'Edit Siswa: ' . $siswa->nama_siswa,
                 'siswa' => $siswa,
@@ -231,7 +271,6 @@ class Siswa extends BaseController
         $m_siswa = new Siswa_model();
         $m_kelas = new Kelas_model();
         $m_tahun = new Tahun_model();
-
 
         $kelas = $m_kelas->listing();
         $tahun = $m_tahun->listing();
@@ -255,12 +294,11 @@ class Siswa extends BaseController
             $filepath = WRITEPATH . '../assets/upload/file/' . $filename;
             $ext = $file->getClientExtension();
 
-            // Pilih reader berdasarkan ekstensi file
             if ($ext == 'csv') {
                 $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Csv');
             } elseif ($ext == 'xls') {
                 $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xls');
-            } else { // xlsx
+            } else {
                 $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
             }
 
@@ -269,6 +307,7 @@ class Siswa extends BaseController
             $worksheet = $spreadsheet->getActiveSheet();
 
             $i = 1;
+            $errors = [];
             foreach ($worksheet->getRowIterator() as $row) {
                 $cellIterator = $row->getCellIterator();
                 $cellIterator->setIterateOnlyExistingCells(false);
@@ -278,8 +317,32 @@ class Siswa extends BaseController
                     $cells[] = $cell->getValue();
                 }
 
-                if ($i > 1) { // Lewati header
-                    if (empty($cells[1])) {
+                if ($i > 1) {
+                    if (empty($cells[1])) { // Lewati jika NIS kosong
+                        $i++;
+                        continue;
+                    }
+
+                    // Ambil data ortu/wali
+                    $nama_ayah = $cells[7];
+                    $nama_ibu = $cells[8];
+                    $nama_wali = $cells[9];
+                    $telepon_wali = $cells[10];
+                    $telepon_ayah = $cells[11];
+                    $telepon_ibu = $cells[12];
+
+                    // Validasi jika nama ayah & ibu kosong, maka nama wali wajib
+                    if (empty($nama_ayah) && empty($nama_ibu) && empty($nama_wali)) {
+                        $errors[] = "Baris ke-$i: Nama wali wajib diisi jika nama ayah dan ibu kosong.";
+                    }
+
+                    // Validasi jika telepon ayah & ibu kosong, maka telepon wali wajib
+                    if (empty($telepon_ayah) && empty($telepon_ibu) && empty($telepon_wali)) {
+                        $errors[] = "Baris ke-$i: Telepon wali wajib diisi jika telepon ayah dan ibu kosong.";
+                    }
+
+                    // Skip insert jika ada error
+                    if (!empty($errors)) {
                         $i++;
                         continue;
                     }
@@ -298,10 +361,12 @@ class Siswa extends BaseController
                         'password_hint' => null,
                         'jenis_kelamin' => $cells[5],
                         'isi' => $cells[6],
-                        'nama_ayah' => $cells[7],
-                        'nama_ibu' => $cells[8],
-                        'telepon_ayah' => $cells[9],
-                        'telepon_ibu' => $cells[10],
+                        'nama_ayah' => $nama_ayah,
+                        'nama_ibu' => $nama_ibu,
+                        'nama_wali' => $nama_wali,
+                        'telepon_wali' => $telepon_wali,
+                        'telepon_ayah' => $telepon_ayah,
+                        'telepon_ibu' => $telepon_ibu,
                         'kelompok' => null,
                         'gambar' => null,
                         'status_siswa' => 'Aktif',
@@ -313,6 +378,11 @@ class Siswa extends BaseController
                     $m_siswa->insert($data);
                 }
                 $i++;
+            }
+
+            if (!empty($errors)) {
+                $this->session->setFlashdata('error', implode('<br>', $errors));
+                return redirect()->back()->withInput();
             }
 
             $this->session->setFlashdata('sukses', 'Data siswa berhasil diimpor.');
@@ -327,6 +397,7 @@ class Siswa extends BaseController
             echo view('admin/layout/wrapper', $data);
         }
     }
+
 
     public function proses()
     {

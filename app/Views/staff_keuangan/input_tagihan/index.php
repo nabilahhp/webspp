@@ -81,8 +81,8 @@
             <td><?= esc($row['detail']) ?></td>
             <td class="text-center"><?= date('d-m-Y H:i', strtotime($row['created_at'])) ?></td>
             <td class="text-center">
-              <a href="<?= base_url('admin/input_tagihan/detail/' . $row['id']) ?>" class="btn btn-info btn-sm mb-1" title="Detail"><i class="fa fa-eye"></i></a>
-              <a href="<?= base_url('admin/input_tagihan/edit/' . $row['id']) ?>" class="btn btn-warning btn-sm mb-1" title="Edit"><i class="fa fa-edit"></i></a>
+              <!-- <a href="<?= base_url('admin/input_tagihan/detail/' . $row['id']) ?>" class="btn btn-info btn-sm mb-1" title="Detail"><i class="fa fa-eye"></i></a> -->
+              <!-- <a href="<?= base_url('admin/input_tagihan/edit/' . $row['id']) ?>" class="btn btn-warning btn-sm mb-1" title="Edit"><i class="fa fa-edit"></i></a> -->
               <a href="<?= base_url('staff_keuangan/input_tagihan/delete/' . $row['id']) ?>" class="btn btn-danger btn-sm mb-1 delete-link" title="Hapus"><i class="fa fa-trash"></i></a>
             </td>
           </tr>

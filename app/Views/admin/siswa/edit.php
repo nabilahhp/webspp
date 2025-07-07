@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 use App\Models\Agama_model;
 use App\Models\Jenjang_model;
 use App\Models\Pekerjaan_model;
@@ -13,8 +14,8 @@ $m_hubungan = new Hubungan_model();
 $m_tahun    = new Tahun_model();
 $m_kelas    = new Kelas_model();
 
-echo form_open_multipart(base_url('admin/siswa/edit/'.$siswa->id_siswa));
-echo csrf_field(); 
+echo form_open_multipart(base_url('admin/siswa/edit/' . $siswa->id_siswa));
+echo csrf_field();
 ?>
 
 <p class="text-right">
@@ -31,10 +32,10 @@ echo csrf_field();
                 <h4>FOTO SISWA</h4>
             </div>
             <div class="card-body text-center">
-                <?php if($siswa->gambar == '') { ?>
+                <?php if ($siswa->gambar == '') { ?>
                     <div class="alert alert-info">Belum Ada foto</div>
                 <?php } else { ?>
-                    <img src="<?php echo base_url('assets/upload/image/'.$siswa->gambar) ?>" class="img-fluid img-thumbnail" alt="Foto Siswa" style="max-width: 200px; height: auto;">
+                    <img src="<?php echo base_url('assets/upload/image/' . $siswa->gambar) ?>" class="img-fluid img-thumbnail" alt="Foto Siswa" style="max-width: 200px; height: auto;">
                 <?php } ?>
             </div>
         </div>
@@ -75,6 +76,23 @@ echo csrf_field();
                         <div class="custom-control custom-radio custom-control-inline">
                             <input class="custom-control-input" name="jenis_kelamin" type="radio" id="customRadio2" value="P" <?= set_radio('jenis_kelamin', 'P', ($siswa->jenis_kelamin == 'P') ? TRUE : FALSE); ?> required>
                             <label for="customRadio2" class="custom-control-label">Perempuan</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jenis Kategori Siswa -->
+                <div class="form-group row">
+                    <label class="col-3 col-sm-2 col-form-label">Jenis Kategori Siswa<span class="text-danger">*</span></label>
+                    <div class="col-9 col-sm-10">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input class="custom-control-input" name="kategori" type="radio" id="customRadioReguler" value="biasa"
+                                <?= (old('kategori', $siswa->kategori ?? '') == 'biasa') ? 'checked' : '' ?> required>
+                            <label for="customRadioReguler" class="custom-control-label">Reguler</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input class="custom-control-input" name="kategori" type="radio" id="customRadioBeasiswa" value="beasiswa"
+                                <?= (old('kategori', $siswa->kategori ?? '') == 'beasiswa') ? 'checked' : '' ?> required>
+                            <label for="customRadioBeasiswa" class="custom-control-label">Beasiswa</label>
                         </div>
                     </div>
                 </div>
@@ -127,7 +145,7 @@ echo csrf_field();
                     <div class="col-9 col-sm-10">
                         <select name="id_tahun" class="form-control select2" required>
                             <option value="">Pilih Tahun Ajaran</option>
-                            <?php foreach($m_tahun->listing() as $tahun) { ?>
+                            <?php foreach ($m_tahun->listing() as $tahun) { ?>
                                 <option value="<?= $tahun->id_tahun ?>" <?= set_select('id_tahun', $tahun->id_tahun, ($siswa->id_tahun == $tahun->id_tahun) ? TRUE : FALSE); ?>>
                                     <?= $tahun->tahun_mulai ?>/<?= $tahun->tahun_selesai ?> - <?= $tahun->nama_tahun ?>
                                 </option>
@@ -142,7 +160,7 @@ echo csrf_field();
                     <div class="col-9 col-sm-10">
                         <select name="id_kelas" class="form-control select2" required>
                             <option value="">Pilih Kelas</option>
-                            <?php foreach($m_kelas->listing() as $kelas) { ?>
+                            <?php foreach ($m_kelas->listing() as $kelas) { ?>
                                 <option value="<?= $kelas->id_kelas ?>" <?= set_select('id_kelas', $kelas->id_kelas, ($siswa->id_kelas == $kelas->id_kelas) ? TRUE : FALSE); ?>>
                                     <?= $kelas->nama_kelas ?>
                                 </option>
@@ -172,7 +190,7 @@ echo csrf_field();
         <div class="form-group row">
             <label class="col-3 col-sm-2 col-form-label">Telepon/HP Ayah<span class="text-danger">*</span></label>
             <div class="col-9 col-sm-10">
-                <input type="text" name="telepon_ayah" class="form-control" placeholder="Telepon/HP Ayah" value="<?= set_value('telepon_ayah', $siswa->telepon_ayah); ?>" required>
+                <input type="text" name="telepon_ayah" class="form-control" placeholder="Telepon/HP Ayah" value="<?= set_value('telepon_ayah', $siswa->telepon_ayah); ?>">
             </div>
         </div>
     </div>
@@ -194,7 +212,28 @@ echo csrf_field();
         <div class="form-group row">
             <label class="col-3 col-sm-2 col-form-label">Telepon/HP Ibu <span class="text-danger">*</span></label>
             <div class="col-9 col-sm-10">
-                <input type="text" name="telepon_ibu" class="form-control" placeholder="Telepon/HP Ibu" value="<?= set_value('telepon_ibu', $siswa->telepon_ibu); ?>" >
+                <input type="text" name="telepon_ibu" class="form-control" placeholder="Telepon/HP Ibu" value="<?= set_value('telepon_ibu', $siswa->telepon_ibu); ?>">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- DATA ORANG TUA (WALI) -->
+<div class="card mt-4">
+    <div class="card-header bg-light text-center">
+        <h4>DATA ORANG TUA SISWA - WALI</h4>
+    </div>
+    <div class="card-body">
+        <div class="form-group row">
+            <label class="col-3 col-sm-2 col-form-label">Nama Wali<span class="text-danger">*</span></label>
+            <div class="col-9 col-sm-10">
+                <input type="text" name="nama_wali" class="form-control" placeholder="Nama Ibu" value="<?= set_value('nama_wali', $siswa->nama_wali); ?>">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-3 col-sm-2 col-form-label">Telepon/HP Wali <span class="text-danger">*</span></label>
+            <div class="col-9 col-sm-10">
+                <input type="text" name="telepon_wali" class="form-control" placeholder="Telepon/HP Ibu" value="<?= set_value('telepon_wali', $siswa->telepon_wali); ?>">
             </div>
         </div>
     </div>
